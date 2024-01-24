@@ -17,7 +17,7 @@ class WikiImageSearcher:
 
     def get_links(self):
         links = []
-        for link in search(self.to_search,lang=self.language,num_results=5):
+        for link in search(self.to_search,lang=self.language,num_results=10):
             links.append(link)
         return links
 
@@ -45,11 +45,11 @@ class WikiImageSearcher:
                 image = image[2::]
                 if image != '':
                     images.append(image)
-        print(f"Found {len(images)} images, downloading...")
+        print(f"Found {len(images)} images")
         return images
     
     def download_images(self,images:list) -> None:
-        
+        print("Downloading...")
         def get_extension(image:str)->str:
             return image.split(".")[-1]
 
