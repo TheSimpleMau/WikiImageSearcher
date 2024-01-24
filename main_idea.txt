@@ -1,0 +1,3 @@
+La idea para este proyecto es crear un programa que,
+dado un inpunt, el usuario obtenga la imagen que
+aparezca en wikipedia.
