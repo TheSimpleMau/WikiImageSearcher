@@ -4,9 +4,6 @@ import os
 from googlesearch import search
 
 
-
-
-
 class WikiImageSearcher:
     def __init__(self, to_search:str,language:str) -> None:
         if to_search.__contains__("Wikipedia"):
@@ -14,6 +11,9 @@ class WikiImageSearcher:
         else:
             self.to_search = to_search + " Wikipedia"
         self.language = language
+        files = os.listdir()
+        if "imgs" not in files:
+            os.system("mkdir imgs")
 
     def get_links(self):
         links = []
@@ -36,7 +36,11 @@ class WikiImageSearcher:
         for link in links:
             response = requests.get(link)
             if response.status_code == 200:
-                parsed = html.fromstring(response.content.decode('utf-8'))
+                try:
+                    parsed = html.fromstring(response.content.decode('utf-8'))
+                except:
+                    print(f"An error has ocurr with link {link}, continuing...")
+                    continue
                 image = self.trys_on_images(parsed)
                 image = image[2::]
                 if image != '':
@@ -53,5 +57,9 @@ class WikiImageSearcher:
         for idx, image in enumerate(images):
             print(f"\r\tObtaingn image {idx+1}/{len_images}", end="")
             extension = get_extension(image)
-            command = f"wget -q -O {self.to_search.replace(" Wikipedia","")}_{idx+1}.{extension} {image}"
+            command = f"wget -q -O imgs/{self.to_search.replace(" Wikipedia","").replace(" ","_")}_{idx+1}.{extension} {image}"
             os.system(command)
+
+
+if __name__ == '__main__':
+    pass
